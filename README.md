@@ -1,17 +1,29 @@
-import torch
-import torch.nn as nn
+# fetch-control-v1
 
-class FetchPolicy(nn.Module):
-    def __init__(self, obs_dim=50, action_dim=13):
-        super().__init__()
-        self.net = nn.Sequential(
-            nn.Linear(obs_dim, 128),
-            nn.ReLU(),
-            nn.Linear(128, 128),
-            nn.ReLU(),
-            nn.Linear(128, action_dim),
-            nn.Tanh()   # output in [-1, 1]
-        )
+Fetch Control Model compatible with **Konnex AI Fetch Interface**
 
-    def forward(self, obs):
-        return self.net(obs)
+## Overview
+This is a simple Vision-Language-Action compatible control policy
+for the Fetch mobile manipulator.
+
+The model accepts robot state observations and outputs a 13-dimensional
+action vector normalized in [-1, 1].
+
+Designed for testing, research, and AI miner onboarding.
+
+## Interface Spec
+- Observation input: vector state (dim = 50)
+- Action output: 13-dim continuous action
+- Output range: [-1, 1] (tanh)
+- Framework: PyTorch
+
+## Files
+- `model.py` – Policy network definition
+- `fetch_policy.pt` – Model weights
+- `export_model.py` – Script to export model
+
+## Status
+Experimental / Testnet
+
+## License
+MIT
