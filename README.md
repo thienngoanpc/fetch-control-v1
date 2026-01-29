@@ -1,8 +1,17 @@
-# fetch-control-v1
-Fetch Control Model compatible with Konnex AI Fetch Interface
+import torch
+import torch.nn as nn
 
-- Input: 50-dim state vector
-- Output: 13-dim action in [-1,1]
-- Framework: PyTorch
+class FetchPolicy(nn.Module):
+    def __init__(self, obs_dim=50, action_dim=13):
+        super().__init__()
+        self.net = nn.Sequential(
+            nn.Linear(obs_dim, 128),
+            nn.ReLU(),
+            nn.Linear(128, 128),
+            nn.ReLU(),
+            nn.Linear(128, action_dim),
+            nn.Tanh()   # output in [-1, 1]
+        )
 
-Status: Experimental / Testnet
+    def forward(self, obs):
+        return self.net(obs)
